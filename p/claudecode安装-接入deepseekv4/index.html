@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="安装ClaudeCode并将其接入DeepSeek 准备工作 下载，安装Git，ClaudeCode，CCSwitch Git下载链接（Windows用户需要git以使用bash命令） https://git-scm.com/install/\nCCSwitch下载链接 https://github.com/farion1231/cc-switch/releases\nGit与CCSwitch的安装直接全部无脑下一步即可\nClaude由于限制，无法直接从国内网路环境安装，所以我们需要用到系统自带的包管理器安装，不使用Claude的安装脚本 （当然，如果有能力的话还是推荐Claude自带的安装脚本，便于其自动更新）\nLinux可使用自带的包管理器安装，不同系统用法不同，在此不作赘述\nmacOS可使用Homebrew安装具体命令如下（需要安装Homebrew https://brew.sh/zh-cn/）\nbrew install --cask claude-code\nWindows可以使用winget来安装，部分Windows版本可能没有自带，可以在powershell输入以下命令来安装\nAdd-AppxPackage -RegisterByFamilyName -MainPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\n之后便可输入winget install Anthropic.ClaudeCode来安装ClaudeCode\n以及winget upgrade Anthropic.ClaudeCode来更新\n配置ClaudeCode的环境变量 安装完ClaudeCode后会看到以下界面，Windows端会提示我们配置环境变量，方便使用ClaudeCode，以下macOS与Linux用户无需配置，跳转到下一节即可\n复制图中标记出的地址，Windows徽标键+S 打开搜索，输入\n编辑系统环境变量\n选择环境变量，找到系统变量下的Path，双击打开\n新建变量，将上文得到的路径填写进去\n之后重启电脑，再次打开powershell，输入claude检查是否可用，如果正常，可看到如图所示输出\n此时国内用户可能会报错，不过不用管它，至此，我们完成了必备应用的安装\n配置CCSwitch，接入DeepSeek 获取APIKey 首先我们要去DeepSeek的开放平台获取APIkey（如果你有了APIKey或者其它中转站的APIKey可以忽略这一步\n访问https://platform.deepseek.com/\n获取APIKey并保存在安全的位置\n配置CCSwitch 打开CCSwitch，点击右上角加号新建模型供应商，选择DeepSeek\n填写APIKey，保存后返回主页启用\n之后选择打开终端，会进入ClaudeCode的配置界面，默认回车即可\n信任工作区域后，即配置完成。\n输入/model即可切换DeepSeek的其它模型\n">
+<title>ClaudeCode安装&#43;接入DeepSeekV4</title>
+
+<link rel='canonical' href='https://blog.coldday.net/p/claudecode%E5%AE%89%E8%A3%85-%E6%8E%A5%E5%85%A5deepseekv4/'>
+
+<link rel="stylesheet" href="/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="ClaudeCode安装+接入DeepSeekV4">
+<meta property='og:description' content="安装ClaudeCode并将其接入DeepSeek 准备工作 下载，安装Git，ClaudeCode，CCSwitch Git下载链接（Windows用户需要git以使用bash命令） https://git-scm.com/install/\nCCSwitch下载链接 https://github.com/farion1231/cc-switch/releases\nGit与CCSwitch的安装直接全部无脑下一步即可\nClaude由于限制，无法直接从国内网路环境安装，所以我们需要用到系统自带的包管理器安装，不使用Claude的安装脚本 （当然，如果有能力的话还是推荐Claude自带的安装脚本，便于其自动更新）\nLinux可使用自带的包管理器安装，不同系统用法不同，在此不作赘述\nmacOS可使用Homebrew安装具体命令如下（需要安装Homebrew https://brew.sh/zh-cn/）\nbrew install --cask claude-code\nWindows可以使用winget来安装，部分Windows版本可能没有自带，可以在powershell输入以下命令来安装\nAdd-AppxPackage -RegisterByFamilyName -MainPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\n之后便可输入winget install Anthropic.ClaudeCode来安装ClaudeCode\n以及winget upgrade Anthropic.ClaudeCode来更新\n配置ClaudeCode的环境变量 安装完ClaudeCode后会看到以下界面，Windows端会提示我们配置环境变量，方便使用ClaudeCode，以下macOS与Linux用户无需配置，跳转到下一节即可\n复制图中标记出的地址，Windows徽标键+S 打开搜索，输入\n编辑系统环境变量\n选择环境变量，找到系统变量下的Path，双击打开\n新建变量，将上文得到的路径填写进去\n之后重启电脑，再次打开powershell，输入claude检查是否可用，如果正常，可看到如图所示输出\n此时国内用户可能会报错，不过不用管它，至此，我们完成了必备应用的安装\n配置CCSwitch，接入DeepSeek 获取APIKey 首先我们要去DeepSeek的开放平台获取APIkey（如果你有了APIKey或者其它中转站的APIKey可以忽略这一步\n访问https://platform.deepseek.com/\n获取APIKey并保存在安全的位置\n配置CCSwitch 打开CCSwitch，点击右上角加号新建模型供应商，选择DeepSeek\n填写APIKey，保存后返回主页启用\n之后选择打开终端，会进入ClaudeCode的配置界面，默认回车即可\n信任工作区域后，即配置完成。\n输入/model即可切换DeepSeek的其它模型\n">
+<meta property='og:url' content='https://blog.coldday.net/p/claudecode%E5%AE%89%E8%A3%85-%E6%8E%A5%E5%85%A5deepseekv4/'>
+<meta property='og:site_name' content='ColdDay.NET'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-06-15T18:59:32&#43;08:00'/><meta property='article:modified_time' content='2026-06-15T18:59:32&#43;08:00'/>
+<meta name="twitter:title" content="ClaudeCode安装+接入DeepSeekV4">
+<meta name="twitter:description" content="安装ClaudeCode并将其接入DeepSeek 准备工作 下载，安装Git，ClaudeCode，CCSwitch Git下载链接（Windows用户需要git以使用bash命令） https://git-scm.com/install/\nCCSwitch下载链接 https://github.com/farion1231/cc-switch/releases\nGit与CCSwitch的安装直接全部无脑下一步即可\nClaude由于限制，无法直接从国内网路环境安装，所以我们需要用到系统自带的包管理器安装，不使用Claude的安装脚本 （当然，如果有能力的话还是推荐Claude自带的安装脚本，便于其自动更新）\nLinux可使用自带的包管理器安装，不同系统用法不同，在此不作赘述\nmacOS可使用Homebrew安装具体命令如下（需要安装Homebrew https://brew.sh/zh-cn/）\nbrew install --cask claude-code\nWindows可以使用winget来安装，部分Windows版本可能没有自带，可以在powershell输入以下命令来安装\nAdd-AppxPackage -RegisterByFamilyName -MainPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\n之后便可输入winget install Anthropic.ClaudeCode来安装ClaudeCode\n以及winget upgrade Anthropic.ClaudeCode来更新\n配置ClaudeCode的环境变量 安装完ClaudeCode后会看到以下界面，Windows端会提示我们配置环境变量，方便使用ClaudeCode，以下macOS与Linux用户无需配置，跳转到下一节即可\n复制图中标记出的地址，Windows徽标键+S 打开搜索，输入\n编辑系统环境变量\n选择环境变量，找到系统变量下的Path，双击打开\n新建变量，将上文得到的路径填写进去\n之后重启电脑，再次打开powershell，输入claude检查是否可用，如果正常，可看到如图所示输出\n此时国内用户可能会报错，不过不用管它，至此，我们完成了必备应用的安装\n配置CCSwitch，接入DeepSeek 获取APIKey 首先我们要去DeepSeek的开放平台获取APIkey（如果你有了APIKey或者其它中转站的APIKey可以忽略这一步\n访问https://platform.deepseek.com/\n获取APIKey并保存在安全的位置\n配置CCSwitch 打开CCSwitch，点击右上角加号新建模型供应商，选择DeepSeek\n填写APIKey，保存后返回主页启用\n之后选择打开终端，会进入ClaudeCode的配置界面，默认回车即可\n信任工作区域后，即配置完成。\n输入/model即可切换DeepSeek的其它模型\n">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_de2a76ba6cc8fe46.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">ColdDay.NET</a></h1>
+            <h2 class="site-description">个人博客</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://x.com/LinqiRainbow'
+                        target="_blank"
+                        title="X"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 4l11.733 16h4.267l-11.733 -16z" /><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/359773918'
+                        target="_blank"
+                        title="哔哩哔哩"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#准备工作">准备工作</a>
+      <ol>
+        <li><a href="#下载安装gitclaudecodeccswitch">下载，安装Git，ClaudeCode，CCSwitch</a></li>
+        <li><a href="#配置claudecode的环境变量">配置ClaudeCode的环境变量</a></li>
+      </ol>
+    </li>
+    <li><a href="#配置ccswitch接入deepseek">配置CCSwitch，接入DeepSeek</a>
+      <ol>
+        <li><a href="#获取apikey">获取APIKey</a></li>
+        <li><a href="#配置ccswitch">配置CCSwitch</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/claudecode%E5%AE%89%E8%A3%85-%E6%8E%A5%E5%85%A5deepseekv4/">ClaudeCode安装&#43;接入DeepSeekV4</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 15, 2026</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 1 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="安装claudecode并将其接入deepseek">安装ClaudeCode并将其接入DeepSeek
+</h1></br>
+<h2 id="准备工作">准备工作
+</h2><h3 id="下载安装gitclaudecodeccswitch">下载，安装Git，ClaudeCode，CCSwitch
+</h3><p>Git下载链接（Windows用户需要git以使用bash命令） <a class="link" href="https://git-scm.com/install/"  target="_blank" rel="noopener"
+    >https://git-scm.com/install/</a></p>
+<p>CCSwitch下载链接 <a class="link" href="https://github.com/farion1231/cc-switch/releases"  target="_blank" rel="noopener"
+    >https://github.com/farion1231/cc-switch/releases</a></p>
+<p><img src="/images/ccxds/icon.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="InstallGitCCS"
+	
+	
+></p>
+<p>Git与CCSwitch的安装直接全部无脑下一步即可</p>
+<p>Claude由于限制，无法直接从国内网路环境安装，所以我们需要用到系统自带的包管理器安装，不使用Claude的安装脚本
+（当然，如果有能力的话还是推荐Claude自带的安装脚本，便于其自动更新）</p>
+<p>Linux可使用自带的包管理器安装，不同系统用法不同，在此不作赘述</p>
+<p>macOS可使用Homebrew安装具体命令如下（需要安装Homebrew <a class="link" href="https://brew.sh/zh-cn/"  target="_blank" rel="noopener"
+    >https://brew.sh/zh-cn/</a>）</p>
+<p><code>brew install --cask claude-code</code></p>
+<p>Windows可以使用winget来安装，部分Windows版本可能没有自带，可以在powershell输入以下命令来安装</p>
+<p><code>Add-AppxPackage -RegisterByFamilyName -MainPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe</code></p>
+<p>之后便可输入<code>winget install Anthropic.ClaudeCode</code>来安装ClaudeCode</p>
+<p>以及<code>winget upgrade Anthropic.ClaudeCode</code>来更新</p>
+<h3 id="配置claudecode的环境变量">配置ClaudeCode的环境变量
+</h3><p>安装完ClaudeCode后会看到以下界面，Windows端会提示我们配置环境变量，方便使用ClaudeCode，以下macOS与Linux用户无需配置，跳转到下一节即可</p>
+<p><img src="/images/ccxds/cc-tip.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="cc-tip"
+	
+	
+></p>
+<p>复制图中标记出的地址，Windows徽标键+S 打开搜索，输入</p>
+<p><code>编辑系统环境变量</code></p>
+<p>选择环境变量，找到系统变量下的Path，双击打开</p>
+<p><img src="/images/ccxds/env_1.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Configure environment variables 1"
+	
+	
+></p>
+<p>新建变量，将上文得到的路径填写进去</p>
+<p><img src="/images/ccxds/env_2.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Configure environment variables 2"
+	
+	
+></p>
+<p>之后重启电脑，再次打开powershell，输入<code>claude</code>检查是否可用，如果正常，可看到如图所示输出</p>
+<p><img src="/images/ccxds/cc-error.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="cc-error"
+	
+	
+></p>
+<p>此时国内用户可能会报错，不过不用管它，至此，我们完成了必备应用的安装</p>
+<h2 id="配置ccswitch接入deepseek">配置CCSwitch，接入DeepSeek
+</h2><h3 id="获取apikey">获取APIKey
+</h3><p>首先我们要去DeepSeek的开放平台获取APIkey（如果你有了APIKey或者其它中转站的APIKey可以忽略这一步</p>
+<p>访问<a class="link" href="https://platform.deepseek.com/"  target="_blank" rel="noopener"
+    >https://platform.deepseek.com/</a></p>
+<p>获取APIKey并保存在安全的位置</p>
+<p><img src="/images/ccxds/get-api.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Get Key"
+	
+	
+></p>
+<h3 id="配置ccswitch">配置CCSwitch
+</h3><p>打开CCSwitch，点击右上角加号新建模型供应商，选择DeepSeek</p>
+<p><img src="/images/ccxds/cf_1.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="cf1"
+	
+	
+></p>
+<p><img src="/images/ccxds/cf_2.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="cf2"
+	
+	
+></p>
+<p>填写APIKey，保存后返回主页启用</p>
+<p><img src="/images/ccxds/use_1.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="use-1"
+	
+	
+></p>
+<p><img src="/images/ccxds/use_2.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="use-2"
+	
+	
+></p>
+<p>之后选择打开终端，会进入ClaudeCode的配置界面，默认回车即可</p>
+<p><img src="/images/ccxds/initialize_1.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="init1"
+	
+	
+></p>
+<p><img src="/images/ccxds/initialize_1.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="init2"
+	
+	
+></p>
+<p>信任工作区域后，即配置完成。</p>
+<p>输入<code>/model</code>即可切换DeepSeek的其它模型</p>
+<p><img src="/images/ccxds/initialize_4.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="init4"
+	
+	
+></p>
+<p>上下键选择，回车确认，在主页即可看到选择的模型</p>
+<p><img src="/images/ccxds/initialize_3.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="init3"
+	
+	
+></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+		<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2026 ColdDay_&amp;LengTianStudio
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
