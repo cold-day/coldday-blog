@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>ColdDay.NET</title>
-        <link>http://localhost:1313/</link>
+        <link>https://blog.coldday.net/</link>
         <description>Recent content on ColdDay.NET</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>ColdDay_&amp;LengTianStudio</copyright>
-        <lastBuildDate>Fri, 20 Feb 2026 00:29:36 +0800</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 20 Feb 2026 00:29:36 +0800</lastBuildDate><atom:link href="https://blog.coldday.net/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Minecraft整合包-生活大冒险-1.20.1移植</title>
-        <link>http://localhost:1313/p/minecraft%E6%95%B4%E5%90%88%E5%8C%85-%E7%94%9F%E6%B4%BB%E5%A4%A7%E5%86%92%E9%99%A9-1.20.1%E7%A7%BB%E6%A4%8D/</link>
+        <link>https://blog.coldday.net/p/minecraft%E6%95%B4%E5%90%88%E5%8C%85-%E7%94%9F%E6%B4%BB%E5%A4%A7%E5%86%92%E9%99%A9-1.20.1%E7%A7%BB%E6%A4%8D/</link>
         <pubDate>Fri, 20 Feb 2026 00:29:36 +0800</pubDate>
         
-        <guid>http://localhost:1313/p/minecraft%E6%95%B4%E5%90%88%E5%8C%85-%E7%94%9F%E6%B4%BB%E5%A4%A7%E5%86%92%E9%99%A9-1.20.1%E7%A7%BB%E6%A4%8D/</guid>
+        <guid>https://blog.coldday.net/p/minecraft%E6%95%B4%E5%90%88%E5%8C%85-%E7%94%9F%E6%B4%BB%E5%A4%A7%E5%86%92%E9%99%A9-1.20.1%E7%A7%BB%E6%A4%8D/</guid>
         <description>&lt;h1 id=&#34;minecraft整合包-生活大冒险-1201移植&#34;&gt;Minecraft整合包-生活大冒险-1.20.1移植
 &lt;/h1&gt;&lt;h2 id=&#34;简介&#34;&gt;简介
 &lt;/h2&gt;&lt;p&gt;该整合包是基于发布在 mcmap.cc 上的1.8版的生活大冒险整合包制作的，但由于部分mod过于老旧，我使用了一些其它的同类mod进行了替代（如超级工具mod）&lt;/p&gt;
@@ -28,7 +28,7 @@
 &lt;h2 id=&#34;主要mod&#34;&gt;主要Mod
 &lt;/h2&gt;&lt;p&gt;由于是偏向生存类的包，添加了一些原版整合包没有的探险mod（暮色森林）以及饮水（不喜欢可以删掉，反正我自己玩是删了）&lt;/p&gt;
 &lt;h3 id=&#34;以下为游戏截图&#34;&gt;以下为游戏截图
-&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/minecraftModPack-MCA/2026-02-19_13.19.11.webp&#34;
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/minecraftModPack-MCA/2026-02-19_13.19.11.webp&#34;
 	
 	
 	
@@ -38,7 +38,7 @@
 	
 	
 &gt;
-&lt;img src=&#34;http://localhost:1313/images/minecraftModPack-MCA/2026-02-19_13.22.28.webp&#34;
+&lt;img src=&#34;https://blog.coldday.net/images/minecraftModPack-MCA/2026-02-19_13.22.28.webp&#34;
 	
 	
 	
@@ -48,7 +48,7 @@
 	
 	
 &gt;
-&lt;img src=&#34;http://localhost:1313/images/minecraftModPack-MCA/2026-02-19_13.24.03.webp&#34;
+&lt;img src=&#34;https://blog.coldday.net/images/minecraftModPack-MCA/2026-02-19_13.24.03.webp&#34;
 	
 	
 	
@@ -58,7 +58,7 @@
 	
 	
 &gt;
-&lt;img src=&#34;http://localhost:1313/images/minecraftModPack-MCA/2026-02-19_13.52.02.webp&#34;
+&lt;img src=&#34;https://blog.coldday.net/images/minecraftModPack-MCA/2026-02-19_13.52.02.webp&#34;
 	
 	
 	
@@ -76,10 +76,10 @@
         </item>
         <item>
         <title>随身WiFi作为跳板访问内网服务</title>
-        <link>http://localhost:1313/p/%E9%9A%8F%E8%BA%ABwifi%E4%BD%9C%E4%B8%BA%E8%B7%B3%E6%9D%BF%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</link>
+        <link>https://blog.coldday.net/p/%E9%9A%8F%E8%BA%ABwifi%E4%BD%9C%E4%B8%BA%E8%B7%B3%E6%9D%BF%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</link>
         <pubDate>Fri, 02 May 2025 23:43:30 +0800</pubDate>
         
-        <guid>http://localhost:1313/p/%E9%9A%8F%E8%BA%ABwifi%E4%BD%9C%E4%B8%BA%E8%B7%B3%E6%9D%BF%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</guid>
+        <guid>https://blog.coldday.net/p/%E9%9A%8F%E8%BA%ABwifi%E4%BD%9C%E4%B8%BA%E8%B7%B3%E6%9D%BF%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</guid>
         <description>&lt;h1 id=&#34;随身wi-fi作为跳板访问内网服务&#34;&gt;随身Wi-Fi作为跳板访问内网服务
 &lt;/h1&gt;&lt;h2 id=&#34;前情提要&#34;&gt;前情提要：
 &lt;/h2&gt;&lt;h2 id=&#34;在随身wi-fi上部署tailscale通过路由访问内网主机的vpro&#34;&gt;本人在家中搭建了服务器，但是由于误操作，导致无法访问服务器，于是在一通查阅后，发现了我的服务器是支持vpro的
