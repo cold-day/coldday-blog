@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="为ESXi添加Realtek网卡驱动 瑞昱的网卡大多使用在消费级的产品上，并且瑞昱官方没有给出适用于ESXi的网卡驱动，因此在安装ESXi时会报错找不到网卡(No Network Adapters)，最好的办法当然是更换一块受ESXi支持的Intel网卡，但是考虑到大多数个人使用ESXi并不是真正的商业用途，因此使用第三方的驱动也可以解决上述问题\n本文所使用的方法及驱动来自William Lam\n该方法无需使用PowerCLI，安装方式较简单。\n当然，文章末尾也准备了添加了驱动的镜像，可直接使用\n准备所需文件 受驱动支持的ESXi镜像（这里使用可免费使用的ESXi8.0U3e版本）\n系统下载地址(需登录账号)\n驱动下载地址\n之后需要准备一个Linux环境用于提取vib文件中的驱动以及AnyBurn用于更改镜像文件\nAnyBurn下载地址\nTip:我尝试在Windows上使用winrar以及7zip提取驱动，无法获得所需驱动，因此需要Linux或者macOS环境中的&quot;ar&quot;工具\n获取驱动文件 如果你没有Linux环境或者懒得提取，我在文章末尾的下载地址中准备了提取好的驱动以及镜像包，直接下载即可使用\n这里我使用的是Archlinux。首先打开下载的压缩文件，在 vib20\\if-re中有所需的vmw_bootbank_if-re_1.101.01-5vmw.800.1.0.20613240.vib的驱动文件，将他提取到Linux主机的任意文件夹中并在此打开终端，输入\nar -x vmw_bootbank_if-re_1.101.01-5vmw.800.1.0.20613240.vib\n注意核对文件名，防止驱动未来更新导致的错误\n之后会得到三个文件，如图，我们需要的是这个叫ifre的文件\nLinux可能需要更改它的权限才能将它移动到其它地方\n将它重命名为ifre.v00\n更改镜像 首先装载镜像，在镜像的EFI/BOOT目录下有BOOT.cfg，将其复制到任意文件夹中 ，之后推出镜像\n首先使用任意文本编辑器打开BOOT.cfg，在modules=这一行的末尾以相同方式加上ifre.v00\n示例：\n1 2 3 4 5 6 7 8 9 bootstate=0 title=Loading ESXi installer timeout=5 prefix= kernel=/b.b00 kernelopt=runweasel cdromBoot modules=/jumpstrt.gz --- /useropts.gz --- /features.gz --- /k.b00 --- /uc_intel.b00 --- /uc_amd.b00 --- /uc_hygon.b00 --- /procfs.b00 --- /vmx.v00 --- /vim.v00 --- /tpm.v00 --- /sb.v00 --- /s.v00 --- /atlantic.v00 --- /bcm_mpi3.v00 --- /bnxtnet.v00 --- /bnxtroce.v00 --- /brcmfcoe.v00 --- /cndi_igc.v00 --- /dwi2c.v00 --- /elxiscsi.v00 --- /elxnet.v00 --- /i40en.v00 --- /iavmd.v00 --- /icen.v00 --- /igbn.v00 --- /intelgpi.v00 --- /ionic_cl.v00 --- /ionic_en.v00 --- /irdman.v00 --- /iser.v00 --- /ixgben.v00 --- /lpfc.v00 --- /lpnic.v00 --- /lsi_mr3.v00 --- /lsi_msgp.v00 --- /lsi_msgp.v01 --- /lsi_msgp.v02 --- /mtip32xx.v00 --- /ne1000.v00 --- /nenic.v00 --- /nfnic.v00 --- /nhpsa.v00 --- /nipmi.v00 --- /nmlx5_cc.v00 --- /nmlx5_co.v00 --- /nmlx5_rd.v00 --- /ntg3.v00 --- /nvme_pci.v00 --- /nvmerdma.v00 --- /nvmetcp.v00 --- /nvmxnet3.v00 --- /nvmxnet3.v01 --- /pvscsi.v00 --- /qcnic.v00 --- /qedentv.v00 --- /qedrntv.v00 --- /qfle3.v00 --- /qfle3f.v00 --- /qfle3i.v00 --- /qflge.v00 --- /rdmahl.v00 --- /rshim_ne.v00 --- /rshim.v00 --- /rste.v00 --- /sfvmk.v00 --- /smartpqi.v00 --- /vmkata.v00 --- /vmksdhci.v00 --- /vmkusb.v00 --- /vmw_ahci.v00 --- /bmcal.v00 --- /clusters.v00 --- /crx.v00 --- /drivervm.v00 --- /elx_esx_.v00 --- /btldr.v00 --- /dvfilter.v00 --- /esx_ui.v00 --- /esxupdt.v00 --- /tpmesxup.v00 --- /weaselin.v00 --- /esxio_co.v00 --- /infravis.v00 --- /loadesx.v00 --- /lsuv2_hp.v00 --- /lsuv2_in.v00 --- /lsuv2_ls.v00 --- /lsuv2_nv.v00 --- /lsuv2_oe.v00 --- /lsuv2_oe.v01 --- /lsuv2_sm.v00 --- /native_m.v00 --- /qlnative.v00 --- /trx.v00 --- /vcls_pod.v00 --- /vdfs.v00 --- /vds_vsip.v00 --- /vmware_e.v00 --- /hbrsrv.v00 --- /vsan.v00 --- /vsanheal.v00 --- /vsanmgmt.v00 --- /tools.t00 --- /xorg.v00 --- /gc.v00 --- /imgdb.tgz --- /basemisc.tgz --- /resvibs.tgz --- /esxiodpt.tgz --- /imgpayld.tgz --- /ifre.v00 build=8.0.3-0.70.24677879 updated=0 接下来使用AnyBurn编辑镜像\n将名为ifre.v00的驱动文件添加到镜像的根目录\n之后打开EFI/BOOT，删除BOOT.cfg再将修改好的BOOT.cfg添加进去\n选择下一页，更改镜像保存名称以及位置\n点击开始生成，即可得到修改后的镜像\n安装ESXi 更改后的镜像可直接烧录进U盘或者使用Vnetoy启动\n如果设备支持UEFI引导，确保系统使用的是UEFI引导并关闭CSM，防止出现requested malloc size failed之类的错误\n">
+<title>为ESXi8.0添加瑞昱（Realtek）有线网卡驱动</title>
+
+<link rel='canonical' href='https://blog.coldday.net/p/%E4%B8%BAesxi8.0%E6%B7%BB%E5%8A%A0%E7%91%9E%E6%98%B1realtek%E6%9C%89%E7%BA%BF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8/'>
+
+<link rel="stylesheet" href="/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="为ESXi8.0添加瑞昱（Realtek）有线网卡驱动">
+<meta property='og:description' content="为ESXi添加Realtek网卡驱动 瑞昱的网卡大多使用在消费级的产品上，并且瑞昱官方没有给出适用于ESXi的网卡驱动，因此在安装ESXi时会报错找不到网卡(No Network Adapters)，最好的办法当然是更换一块受ESXi支持的Intel网卡，但是考虑到大多数个人使用ESXi并不是真正的商业用途，因此使用第三方的驱动也可以解决上述问题\n本文所使用的方法及驱动来自William Lam\n该方法无需使用PowerCLI，安装方式较简单。\n当然，文章末尾也准备了添加了驱动的镜像，可直接使用\n准备所需文件 受驱动支持的ESXi镜像（这里使用可免费使用的ESXi8.0U3e版本）\n系统下载地址(需登录账号)\n驱动下载地址\n之后需要准备一个Linux环境用于提取vib文件中的驱动以及AnyBurn用于更改镜像文件\nAnyBurn下载地址\nTip:我尝试在Windows上使用winrar以及7zip提取驱动，无法获得所需驱动，因此需要Linux或者macOS环境中的&quot;ar&quot;工具\n获取驱动文件 如果你没有Linux环境或者懒得提取，我在文章末尾的下载地址中准备了提取好的驱动以及镜像包，直接下载即可使用\n这里我使用的是Archlinux。首先打开下载的压缩文件，在 vib20\\if-re中有所需的vmw_bootbank_if-re_1.101.01-5vmw.800.1.0.20613240.vib的驱动文件，将他提取到Linux主机的任意文件夹中并在此打开终端，输入\nar -x vmw_bootbank_if-re_1.101.01-5vmw.800.1.0.20613240.vib\n注意核对文件名，防止驱动未来更新导致的错误\n之后会得到三个文件，如图，我们需要的是这个叫ifre的文件\nLinux可能需要更改它的权限才能将它移动到其它地方\n将它重命名为ifre.v00\n更改镜像 首先装载镜像，在镜像的EFI/BOOT目录下有BOOT.cfg，将其复制到任意文件夹中 ，之后推出镜像\n首先使用任意文本编辑器打开BOOT.cfg，在modules=这一行的末尾以相同方式加上ifre.v00\n示例：\n1 2 3 4 5 6 7 8 9 bootstate=0 title=Loading ESXi installer timeout=5 prefix= kernel=/b.b00 kernelopt=runweasel cdromBoot modules=/jumpstrt.gz --- /useropts.gz --- /features.gz --- /k.b00 --- /uc_intel.b00 --- /uc_amd.b00 --- /uc_hygon.b00 --- /procfs.b00 --- /vmx.v00 --- /vim.v00 --- /tpm.v00 --- /sb.v00 --- /s.v00 --- /atlantic.v00 --- /bcm_mpi3.v00 --- /bnxtnet.v00 --- /bnxtroce.v00 --- /brcmfcoe.v00 --- /cndi_igc.v00 --- /dwi2c.v00 --- /elxiscsi.v00 --- /elxnet.v00 --- /i40en.v00 --- /iavmd.v00 --- /icen.v00 --- /igbn.v00 --- /intelgpi.v00 --- /ionic_cl.v00 --- /ionic_en.v00 --- /irdman.v00 --- /iser.v00 --- /ixgben.v00 --- /lpfc.v00 --- /lpnic.v00 --- /lsi_mr3.v00 --- /lsi_msgp.v00 --- /lsi_msgp.v01 --- /lsi_msgp.v02 --- /mtip32xx.v00 --- /ne1000.v00 --- /nenic.v00 --- /nfnic.v00 --- /nhpsa.v00 --- /nipmi.v00 --- /nmlx5_cc.v00 --- /nmlx5_co.v00 --- /nmlx5_rd.v00 --- /ntg3.v00 --- /nvme_pci.v00 --- /nvmerdma.v00 --- /nvmetcp.v00 --- /nvmxnet3.v00 --- /nvmxnet3.v01 --- /pvscsi.v00 --- /qcnic.v00 --- /qedentv.v00 --- /qedrntv.v00 --- /qfle3.v00 --- /qfle3f.v00 --- /qfle3i.v00 --- /qflge.v00 --- /rdmahl.v00 --- /rshim_ne.v00 --- /rshim.v00 --- /rste.v00 --- /sfvmk.v00 --- /smartpqi.v00 --- /vmkata.v00 --- /vmksdhci.v00 --- /vmkusb.v00 --- /vmw_ahci.v00 --- /bmcal.v00 --- /clusters.v00 --- /crx.v00 --- /drivervm.v00 --- /elx_esx_.v00 --- /btldr.v00 --- /dvfilter.v00 --- /esx_ui.v00 --- /esxupdt.v00 --- /tpmesxup.v00 --- /weaselin.v00 --- /esxio_co.v00 --- /infravis.v00 --- /loadesx.v00 --- /lsuv2_hp.v00 --- /lsuv2_in.v00 --- /lsuv2_ls.v00 --- /lsuv2_nv.v00 --- /lsuv2_oe.v00 --- /lsuv2_oe.v01 --- /lsuv2_sm.v00 --- /native_m.v00 --- /qlnative.v00 --- /trx.v00 --- /vcls_pod.v00 --- /vdfs.v00 --- /vds_vsip.v00 --- /vmware_e.v00 --- /hbrsrv.v00 --- /vsan.v00 --- /vsanheal.v00 --- /vsanmgmt.v00 --- /tools.t00 --- /xorg.v00 --- /gc.v00 --- /imgdb.tgz --- /basemisc.tgz --- /resvibs.tgz --- /esxiodpt.tgz --- /imgpayld.tgz --- /ifre.v00 build=8.0.3-0.70.24677879 updated=0 接下来使用AnyBurn编辑镜像\n将名为ifre.v00的驱动文件添加到镜像的根目录\n之后打开EFI/BOOT，删除BOOT.cfg再将修改好的BOOT.cfg添加进去\n选择下一页，更改镜像保存名称以及位置\n点击开始生成，即可得到修改后的镜像\n安装ESXi 更改后的镜像可直接烧录进U盘或者使用Vnetoy启动\n如果设备支持UEFI引导，确保系统使用的是UEFI引导并关闭CSM，防止出现requested malloc size failed之类的错误\n">
+<meta property='og:url' content='https://blog.coldday.net/p/%E4%B8%BAesxi8.0%E6%B7%BB%E5%8A%A0%E7%91%9E%E6%98%B1realtek%E6%9C%89%E7%BA%BF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8/'>
+<meta property='og:site_name' content='ColdDay.NET'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-07-24T00:00:07&#43;08:00'/><meta property='article:modified_time' content='2026-07-24T00:00:07&#43;08:00'/>
+<meta name="twitter:title" content="为ESXi8.0添加瑞昱（Realtek）有线网卡驱动">
+<meta name="twitter:description" content="为ESXi添加Realtek网卡驱动 瑞昱的网卡大多使用在消费级的产品上，并且瑞昱官方没有给出适用于ESXi的网卡驱动，因此在安装ESXi时会报错找不到网卡(No Network Adapters)，最好的办法当然是更换一块受ESXi支持的Intel网卡，但是考虑到大多数个人使用ESXi并不是真正的商业用途，因此使用第三方的驱动也可以解决上述问题\n本文所使用的方法及驱动来自William Lam\n该方法无需使用PowerCLI，安装方式较简单。\n当然，文章末尾也准备了添加了驱动的镜像，可直接使用\n准备所需文件 受驱动支持的ESXi镜像（这里使用可免费使用的ESXi8.0U3e版本）\n系统下载地址(需登录账号)\n驱动下载地址\n之后需要准备一个Linux环境用于提取vib文件中的驱动以及AnyBurn用于更改镜像文件\nAnyBurn下载地址\nTip:我尝试在Windows上使用winrar以及7zip提取驱动，无法获得所需驱动，因此需要Linux或者macOS环境中的&quot;ar&quot;工具\n获取驱动文件 如果你没有Linux环境或者懒得提取，我在文章末尾的下载地址中准备了提取好的驱动以及镜像包，直接下载即可使用\n这里我使用的是Archlinux。首先打开下载的压缩文件，在 vib20\\if-re中有所需的vmw_bootbank_if-re_1.101.01-5vmw.800.1.0.20613240.vib的驱动文件，将他提取到Linux主机的任意文件夹中并在此打开终端，输入\nar -x vmw_bootbank_if-re_1.101.01-5vmw.800.1.0.20613240.vib\n注意核对文件名，防止驱动未来更新导致的错误\n之后会得到三个文件，如图，我们需要的是这个叫ifre的文件\nLinux可能需要更改它的权限才能将它移动到其它地方\n将它重命名为ifre.v00\n更改镜像 首先装载镜像，在镜像的EFI/BOOT目录下有BOOT.cfg，将其复制到任意文件夹中 ，之后推出镜像\n首先使用任意文本编辑器打开BOOT.cfg，在modules=这一行的末尾以相同方式加上ifre.v00\n示例：\n1 2 3 4 5 6 7 8 9 bootstate=0 title=Loading ESXi installer timeout=5 prefix= kernel=/b.b00 kernelopt=runweasel cdromBoot modules=/jumpstrt.gz --- /useropts.gz --- /features.gz --- /k.b00 --- /uc_intel.b00 --- /uc_amd.b00 --- /uc_hygon.b00 --- /procfs.b00 --- /vmx.v00 --- /vim.v00 --- /tpm.v00 --- /sb.v00 --- /s.v00 --- /atlantic.v00 --- /bcm_mpi3.v00 --- /bnxtnet.v00 --- /bnxtroce.v00 --- /brcmfcoe.v00 --- /cndi_igc.v00 --- /dwi2c.v00 --- /elxiscsi.v00 --- /elxnet.v00 --- /i40en.v00 --- /iavmd.v00 --- /icen.v00 --- /igbn.v00 --- /intelgpi.v00 --- /ionic_cl.v00 --- /ionic_en.v00 --- /irdman.v00 --- /iser.v00 --- /ixgben.v00 --- /lpfc.v00 --- /lpnic.v00 --- /lsi_mr3.v00 --- /lsi_msgp.v00 --- /lsi_msgp.v01 --- /lsi_msgp.v02 --- /mtip32xx.v00 --- /ne1000.v00 --- /nenic.v00 --- /nfnic.v00 --- /nhpsa.v00 --- /nipmi.v00 --- /nmlx5_cc.v00 --- /nmlx5_co.v00 --- /nmlx5_rd.v00 --- /ntg3.v00 --- /nvme_pci.v00 --- /nvmerdma.v00 --- /nvmetcp.v00 --- /nvmxnet3.v00 --- /nvmxnet3.v01 --- /pvscsi.v00 --- /qcnic.v00 --- /qedentv.v00 --- /qedrntv.v00 --- /qfle3.v00 --- /qfle3f.v00 --- /qfle3i.v00 --- /qflge.v00 --- /rdmahl.v00 --- /rshim_ne.v00 --- /rshim.v00 --- /rste.v00 --- /sfvmk.v00 --- /smartpqi.v00 --- /vmkata.v00 --- /vmksdhci.v00 --- /vmkusb.v00 --- /vmw_ahci.v00 --- /bmcal.v00 --- /clusters.v00 --- /crx.v00 --- /drivervm.v00 --- /elx_esx_.v00 --- /btldr.v00 --- /dvfilter.v00 --- /esx_ui.v00 --- /esxupdt.v00 --- /tpmesxup.v00 --- /weaselin.v00 --- /esxio_co.v00 --- /infravis.v00 --- /loadesx.v00 --- /lsuv2_hp.v00 --- /lsuv2_in.v00 --- /lsuv2_ls.v00 --- /lsuv2_nv.v00 --- /lsuv2_oe.v00 --- /lsuv2_oe.v01 --- /lsuv2_sm.v00 --- /native_m.v00 --- /qlnative.v00 --- /trx.v00 --- /vcls_pod.v00 --- /vdfs.v00 --- /vds_vsip.v00 --- /vmware_e.v00 --- /hbrsrv.v00 --- /vsan.v00 --- /vsanheal.v00 --- /vsanmgmt.v00 --- /tools.t00 --- /xorg.v00 --- /gc.v00 --- /imgdb.tgz --- /basemisc.tgz --- /resvibs.tgz --- /esxiodpt.tgz --- /imgpayld.tgz --- /ifre.v00 build=8.0.3-0.70.24677879 updated=0 接下来使用AnyBurn编辑镜像\n将名为ifre.v00的驱动文件添加到镜像的根目录\n之后打开EFI/BOOT，删除BOOT.cfg再将修改好的BOOT.cfg添加进去\n选择下一页，更改镜像保存名称以及位置\n点击开始生成，即可得到修改后的镜像\n安装ESXi 更改后的镜像可直接烧录进U盘或者使用Vnetoy启动\n如果设备支持UEFI引导，确保系统使用的是UEFI引导并关闭CSM，防止出现requested malloc size failed之类的错误\n">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_de2a76ba6cc8fe46.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">ColdDay.NET</a></h1>
+            <h2 class="site-description">个人博客</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://x.com/ColdDayNET'
+                        target="_blank"
+                        title="X"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 4l11.733 16h4.267l-11.733 -16z" /><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/359773918'
+                        target="_blank"
+                        title="哔哩哔哩"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#准备所需文件">准备所需文件</a></li>
+    <li><a href="#获取驱动文件">获取驱动文件</a></li>
+    <li><a href="#更改镜像">更改镜像</a></li>
+    <li><a href="#安装esxi">安装ESXi</a></li>
+    <li><a href="#将驱动安装到目标系统中">将驱动安装到目标系统中</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E4%B8%BAesxi8.0%E6%B7%BB%E5%8A%A0%E7%91%9E%E6%98%B1realtek%E6%9C%89%E7%BA%BF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8/">为ESXi8.0添加瑞昱（Realtek）有线网卡驱动</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 24, 2026</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="为esxi添加realtek网卡驱动">为ESXi添加Realtek网卡驱动
+</h1><p>瑞昱的网卡大多使用在消费级的产品上，并且瑞昱官方没有给出适用于ESXi的网卡驱动，因此在安装ESXi时会报错找不到网卡(No Network Adapters)，最好的办法当然是更换一块受ESXi支持的Intel网卡，但是考虑到大多数个人使用ESXi并不是真正的商业用途，因此使用第三方的驱动也可以解决上述问题<br>
+本文所使用的方法及驱动来自<a class="link" href="https://williamlam.com/2026/02/installing-realtek-network-driver-fling-using-free-esxi-8-0-update-3e-iso.html"  target="_blank" rel="noopener"
+    >William Lam</a><br>
+该方法无需使用PowerCLI，安装方式较简单。</p>
+<blockquote>
+<p>当然，文章末尾也准备了添加了驱动的镜像，可直接使用</p>
+</blockquote>
+<h2 id="准备所需文件">准备所需文件
+</h2><p>受驱动支持的ESXi镜像（这里使用可免费使用的ESXi8.0U3e版本）<br>
+<a class="link" href="https://support.broadcom.com/group/ecx/productfiles?subFamily=VMware%20vSphere%20Hypervisor&amp;displayGroup=VMware%20vSphere%20Hypervisor&amp;release=8.0U3e&amp;os=&amp;servicePk=530197&amp;language=EN&amp;freeDownloads=true"  target="_blank" rel="noopener"
+    >系统下载地址(需登录账号)</a><br>
+<a class="link" href="https://support.broadcom.com/group/ecx/productfiles?subFamily=Flings&amp;displayGroup=Realtek%20Network%20Driver%20for%20ESXi&amp;release=1.101.01&amp;os=&amp;servicePk=&amp;language=EN&amp;freeDownloads=true"  target="_blank" rel="noopener"
+    >驱动下载地址</a><br>
+之后需要准备一个Linux环境用于提取vib文件中的驱动以及AnyBurn用于更改镜像文件<br>
+<a class="link" href="https://www.anyburn.com/"  target="_blank" rel="noopener"
+    >AnyBurn下载地址</a></p>
+<blockquote>
+<p>Tip:我尝试在Windows上使用winrar以及7zip提取驱动，无法获得所需驱动，因此需要Linux或者macOS环境中的&quot;ar&quot;工具</p>
+</blockquote>
+<h2 id="获取驱动文件">获取驱动文件
+</h2><blockquote>
+<p>如果你没有Linux环境或者懒得提取，我在文章末尾的下载地址中准备了提取好的驱动以及镜像包，直接下载即可使用</p>
+</blockquote>
+<p>这里我使用的是Archlinux。首先打开下载的压缩文件，在 <code>vib20\if-re</code>中有所需的<code>vmw_bootbank_if-re_1.101.01-5vmw.800.1.0.20613240.vib</code>的驱动文件，将他提取到Linux主机的任意文件夹中并在此打开终端，输入<br>
+<code>ar -x vmw_bootbank_if-re_1.101.01-5vmw.800.1.0.20613240.vib</code></p>
+<blockquote>
+<p>注意核对文件名，防止驱动未来更新导致的错误</p>
+</blockquote>
+<p>之后会得到三个文件，如图，我们需要的是这个叫<code>ifre</code>的文件<br>
+<img src="/images/esxi-realtekdriver-guide/ar-get-driver.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="ar-get-driver"
+	
+	
+>
+Linux可能需要更改它的权限才能将它移动到其它地方<br>
+将它重命名为ifre.v00</p>
+<h2 id="更改镜像">更改镜像
+</h2><p>首先装载镜像，在镜像的<code>EFI/BOOT</code>目录下有BOOT.cfg，将其复制到任意文件夹中 ，之后推出镜像<br>
+<img src="/images/esxi-realtekdriver-guide/get-boot.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="get-boot"
+	
+	
+><br>
+首先使用任意文本编辑器打开BOOT.cfg，在<code>modules=</code>这一行的末尾以相同方式加上<code>ifre.v00</code><br>
+<img src="/images/esxi-realtekdriver-guide/edit-boot.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="edit-boot"
+	
+	
+><br>
+示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">bootstate</span><span class="o">=</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="o">=</span><span class="n">Loading</span> <span class="n">ESXi</span> <span class="n">installer</span>
+</span></span><span class="line"><span class="cl"><span class="n">timeout</span><span class="o">=</span><span class="mi">5</span>
+</span></span><span class="line"><span class="cl"><span class="n">prefix</span><span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="n">kernel</span><span class="o">=/</span><span class="n">b</span><span class="o">.</span><span class="n">b00</span>
+</span></span><span class="line"><span class="cl"><span class="n">kernelopt</span><span class="o">=</span><span class="n">runweasel</span> <span class="n">cdromBoot</span>
+</span></span><span class="line"><span class="cl"><span class="n">modules</span><span class="o">=/</span><span class="n">jumpstrt</span><span class="o">.</span><span class="n">gz</span> <span class="o">---</span> <span class="o">/</span><span class="n">useropts</span><span class="o">.</span><span class="n">gz</span> <span class="o">---</span> <span class="o">/</span><span class="n">features</span><span class="o">.</span><span class="n">gz</span> <span class="o">---</span> <span class="o">/</span><span class="n">k</span><span class="o">.</span><span class="n">b00</span> <span class="o">---</span> <span class="o">/</span><span class="n">uc_intel</span><span class="o">.</span><span class="n">b00</span> <span class="o">---</span> <span class="o">/</span><span class="n">uc_amd</span><span class="o">.</span><span class="n">b00</span> <span class="o">---</span> <span class="o">/</span><span class="n">uc_hygon</span><span class="o">.</span><span class="n">b00</span> <span class="o">---</span> <span class="o">/</span><span class="n">procfs</span><span class="o">.</span><span class="n">b00</span> <span class="o">---</span> <span class="o">/</span><span class="n">vmx</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">vim</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">tpm</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">sb</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">s</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">atlantic</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">bcm_mpi3</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">bnxtnet</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">bnxtroce</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">brcmfcoe</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">cndi_igc</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">dwi2c</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">elxiscsi</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">elxnet</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">i40en</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">iavmd</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">icen</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">igbn</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">intelgpi</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">ionic_cl</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">ionic_en</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">irdman</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">iser</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">ixgben</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">lpfc</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">lpnic</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">lsi_mr3</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">lsi_msgp</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">lsi_msgp</span><span class="o">.</span><span class="n">v01</span> <span class="o">---</span> <span class="o">/</span><span class="n">lsi_msgp</span><span class="o">.</span><span class="n">v02</span> <span class="o">---</span> <span class="o">/</span><span class="n">mtip32xx</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">ne1000</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">nenic</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">nfnic</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">nhpsa</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">nipmi</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">nmlx5_cc</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">nmlx5_co</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">nmlx5_rd</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">ntg3</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">nvme_pci</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">nvmerdma</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">nvmetcp</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">nvmxnet3</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">nvmxnet3</span><span class="o">.</span><span class="n">v01</span> <span class="o">---</span> <span class="o">/</span><span class="n">pvscsi</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">qcnic</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">qedentv</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">qedrntv</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">qfle3</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">qfle3f</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">qfle3i</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">qflge</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">rdmahl</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">rshim_ne</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">rshim</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">rste</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">sfvmk</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">smartpqi</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">vmkata</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">vmksdhci</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">vmkusb</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">vmw_ahci</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">bmcal</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">clusters</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">crx</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">drivervm</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">elx_esx_</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">btldr</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">dvfilter</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">esx_ui</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">esxupdt</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">tpmesxup</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">weaselin</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">esxio_co</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">infravis</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">loadesx</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">lsuv2_hp</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">lsuv2_in</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">lsuv2_ls</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">lsuv2_nv</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">lsuv2_oe</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">lsuv2_oe</span><span class="o">.</span><span class="n">v01</span> <span class="o">---</span> <span class="o">/</span><span class="n">lsuv2_sm</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">native_m</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">qlnative</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">trx</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">vcls_pod</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">vdfs</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">vds_vsip</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">vmware_e</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">hbrsrv</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">vsan</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">vsanheal</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">vsanmgmt</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">tools</span><span class="o">.</span><span class="n">t00</span> <span class="o">---</span> <span class="o">/</span><span class="n">xorg</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">gc</span><span class="o">.</span><span class="n">v00</span> <span class="o">---</span> <span class="o">/</span><span class="n">imgdb</span><span class="o">.</span><span class="n">tgz</span> <span class="o">---</span> <span class="o">/</span><span class="n">basemisc</span><span class="o">.</span><span class="n">tgz</span> <span class="o">---</span> <span class="o">/</span><span class="n">resvibs</span><span class="o">.</span><span class="n">tgz</span> <span class="o">---</span> <span class="o">/</span><span class="n">esxiodpt</span><span class="o">.</span><span class="n">tgz</span> <span class="o">---</span> <span class="o">/</span><span class="n">imgpayld</span><span class="o">.</span><span class="n">tgz</span> <span class="o">---</span> <span class="o">/</span><span class="n">ifre</span><span class="o">.</span><span class="n">v00</span>
+</span></span><span class="line"><span class="cl"><span class="n">build</span><span class="o">=</span><span class="mf">8.0</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="mf">0.70</span><span class="o">.</span><span class="mi">24677879</span>
+</span></span><span class="line"><span class="cl"><span class="n">updated</span><span class="o">=</span><span class="mi">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>接下来使用AnyBurn编辑镜像<br>
+<img src="/images/esxi-realtekdriver-guide/edit-img.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="edit-img"
+	
+	
+><br>
+将名为<code>ifre.v00</code>的驱动文件添加到镜像的根目录<br>
+<img src="/images/esxi-realtekdriver-guide/edit-img-1.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="edit-img-1"
+	
+	
+><br>
+之后打开<code>EFI/BOOT</code>，删除<code>BOOT.cfg</code>再将修改好的<code>BOOT.cfg</code>添加进去<br>
+<img src="/images/esxi-realtekdriver-guide/edit-img-2.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="edit-img-2"
+	
+	
+><br>
+<img src="/images/esxi-realtekdriver-guide/edit-img-3.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="edit-img-3"
+	
+	
+><br>
+选择下一页，更改镜像保存名称以及位置<br>
+<img src="/images/esxi-realtekdriver-guide/edit-img-final.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="edit-img-final"
+	
+	
+><br>
+点击开始生成，即可得到修改后的镜像</p>
+<h2 id="安装esxi">安装ESXi
+</h2><p>更改后的镜像可直接烧录进U盘或者使用Vnetoy启动<br>
+<strong>如果设备支持UEFI引导，确保系统使用的是UEFI引导并关闭CSM，防止出现<code>requested malloc size failed</code>之类的错误</strong></p>
+<blockquote>
+<p>在ESXi6.7以后，全新安装的系统会划分一块较大的区域(约110GB)给VMFSL使用，该分区主要在多台主机组成集群时使用，我们在这用不到，因此我们在安装引导前需要调整它的大小，避免浪费磁盘空间 下文的方法来自<a class="link" href="https://williamlam.com/2020/05/changing-the-default-size-of-the-esx-osdata-volume-in-esxi-7-0.html"  target="_blank" rel="noopener"
+    >William Lam</a></p>
+</blockquote>
+<p>在进入如图所示的界面后，左下角有倒计时，结束前按下<code>Shift+O</code>，编辑启动命令<br>
+此处有两种更改方式，如果你的系统版本为ESXi8.0，那么推荐使用第一种方式，这种是受官方支持的标准方式，如果低于该版本或者存储空间不足，也可以使用第二种方式最大程度的压缩空间<br>
+<strong>第一种</strong><br>
+直接在后面加上<code>systemMediaSize=min</code><br>
+<img src="/images/esxi-realtekdriver-guide/edit-boot-arg.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="edit-boot-arg"
+	
+	
+></p>
+<blockquote>
+<p>Tip：各选项对应分区大小</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">min = 25GB
+</span></span><span class="line"><span class="cl">small = 55GB
+</span></span><span class="line"><span class="cl">default = 138GB (默认)
+</span></span><span class="line"><span class="cl">max = 使用所有可用空间
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>第二种</strong><br>
+在后面加上<code>autoPartitionOSDataSize=8192</code><br>
+<img src="/images/esxi-realtekdriver-guide/edit-boot-arg-2.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="edit-boot-arg-2"
+	
+	
+></p>
+<blockquote>
+<p>单位为MB，大小建议大于4096MB(4GB)</p>
+</blockquote>
+<p>我这里使用第二种方法，设置的大小为8192<br>
+之后正常安装即可，但是<strong>到最后一步不要重启</strong></p>
+<h2 id="将驱动安装到目标系统中">将驱动安装到目标系统中
+</h2><p>在提示重启的界面下按下<code>Alt+1</code>进入tty1，用户root，密码为空，直接回车即可，之后输入如下命令将文件复制到指定目录下（截至ESXi8.0U3e可直接套用下列命令，文件目录在不同设备上均一致）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cp /tardisks/ifre.v00 /vmfs/volumes/BOOTBANK1/ifre.v00
+</span></span><span class="line"><span class="cl">cp /tardisks/ifre.v00 /vmfs/volumes/BOOTBANK2/ifre.v00
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/images/esxi-realtekdriver-guide/load-driver.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="load-driver"
+	
+	
+><br>
+之后修改<code>boot.cfg</code>，方法与上文相同，这里使用系统自带的<code>vi</code>进行修改<br>
+输入<code>vi /vmfs/volumes/BOOTBANK1/boot.cfg</code>在modules=这一行的末尾以相同方式加上ifre.v00<br>
+<img src="/images/esxi-realtekdriver-guide/edit-boot-arg-3.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="edit-boot-arg-3"
+	
+	
+>
+需要修改两次，第二次输入<code>vi /vmfs/volumes/BOOTBANK1/boot.cfg</code>，方法相同<br>
+保存后按<code>Alt+2</code>回到安装界面，回车重启即可完成安装
+<img src="/images/esxi-realtekdriver-guide/reboot-1.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="reboot-1"
+	
+	
+></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="cold-day/coldday-blog"
+    data-repo-id="R_kgDOR6JKhQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOR6JKhc4C_NKE"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="1"
+    data-lang="zh-CN"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('1');
+            } else {
+                setGiscusTheme('1');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2026 ColdDay_&amp;LengTianStudio
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
