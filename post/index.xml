@@ -246,9 +246,9 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 		alt=&#34;edit-boot-arg-3&#34;
 	
 	
-&gt;
+&gt;&lt;br&gt;
 需要修改两次，第二次输入&lt;code&gt;vi /vmfs/volumes/BOOTBANK1/boot.cfg&lt;/code&gt;，方法相同&lt;br&gt;
-保存后按&lt;code&gt;Alt+2&lt;/code&gt;回到安装界面，回车重启即可完成安装
+保存后按&lt;code&gt;Alt+2&lt;/code&gt;回到安装界面，回车重启即可完成安装&lt;br&gt;
 &lt;img src=&#34;https://blog.coldday.net/images/esxi-realtekdriver-guide/reboot-1.webp&#34;
 	
 	
@@ -259,6 +259,11 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 	
 	
 &gt;&lt;/p&gt;
+&lt;h2 id=&#34;附件&#34;&gt;附件
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.coldday.net/AttachedFiles/esxi-realtekdriver-guide/ifre.v00&#34; &gt;提取的驱动文件&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://blog.coldday.net/AttachedFiles/esxi-realtekdriver-guide/BOOT.CFG&#34; &gt;修改后的BOOT.CFG&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://www.icloud.com/iclouddrive/007K07yALWapizBL8LCw1bvHA#VMware-VMvisor-Installer-8.0U3e-24677879.x86%5F64%5FRealtek-NetworkDriver&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;修补后可直接使用的镜像&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         <item>
