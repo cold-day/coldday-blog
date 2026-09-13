@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
-    <head><meta charset='utf-8'>
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="随身Wi-Fi作为跳板访问内网服务 前情提要： 本人在家中搭建了服务器，但是由于误操作，导致无法访问服务器，于是在一通查阅后，发现了我的服务器是支持vpro的 但众所周知的原因，ipv4公网在我这个小地方几乎是没有的 Ipv6又是动态，vpro无法配置ddns，于是有了这个教程 在随身Wi-Fi上部署tailscale通过路由访问内网主机的vpro 正式开始： 本教程使用了GitHub上的openstick项目 OpenStick\nStep1：获取随身Wi-Fi的相关信息 查看随身Wi-Fi的版本 拆开外壳，在主板或天线上应该会有标识 我这里是UFI_001C Step2：准备必要的文件 一款ssh客户端 我这里用的是termius（界面真的好看） openstick项目的固件 打开openstick项目的releases页面，找到最新的release Tip：如果你的设备版本为ufi001c或ufi001b，则下载base.zip\n如果是其它设备，则下载base-generic.zip 我这里是ufi001c，所以我使用base.zip 然后我们需要下载Debian固件，下载debian.zip即可\n下载好后得到这两个文件 解压到没有中文名称的路径\n在刷机之前，请确保你已经备份了你的原厂固件！！！ 在刷机之前，请确保你已经备份了你的原厂固件！！！ 在刷机之前，请确保你已经备份了你的原厂固件！！！\nStep3：刷入Debian 进入fastboot\n在我的随身Wi-Fi上有一个重置按键，我们可以通过它来进入fastboot\n在通电的一瞬间按下它，显示一蓝一绿，即表示进入了fastboot 如果没有亮灯，则是9008模式，请拔出，再尝试重新进入 处理所得的文件\n打开base文件夹，shift+右键空白区域 选择在此处打开PowerShell窗口 随后，将flash.bat拖入命令行，回车执行\n随后一路回车即可，如果脚本自动退出且没有任何报错，则表示base刷写成功 现在我们再来刷入Debian 打开Debian文件夹，将里面的flash.bat，改名为debian.bat\n然后将所有文件移动到base文件夹 提示有重名的文件，忽略即可 你的base文件夹下应该是这种结构\n然后将debian.bat拖入PowerShell中 回车执行 显示all done！即表示完成 Step4：配置Debian系统 刷写完成后，拔出在重新插入随身Wi-Fi 此时会看到有这个提示(Windows8以及以上系统)\n选择是（否则会有莫名其妙的问题）\n然后我们打开一款ssh软件，我这里以termius为例子 输入连接信息：\nIP:192.168.68.1\n用户名:user\n密码:1\n然后连接\n现在我们开始配置网络 输入ntmui，打开networkmanager的tui配置界面 选择“Edit a connection” 先删除不必要的Wired connection 1 按下键选择“Wired connection 1”，后按右键，选定delete，执行 Tip:这里不要删错，保留USB，以防将来维护使用 然后Back，回到主界面 选择“Activate a connection”连接无线网络 选择你的无线网络，输入密码后连接 此时，你的随身Wi-Fi应该可以正常访问网络了，现在，你可以把它丢到离你路由器近的地方进行配置 它的IP地址可以在路由器后台看到（我这里是10.10.10.119\n把连接信息中的IP改为你路由器分配的IP即可\n">
 <title>随身WiFi作为跳板访问内网服务</title>
 
-<link rel='canonical' href='https://blog.coldday.net/p/%E9%9A%8F%E8%BA%ABwifi%E4%BD%9C%E4%B8%BA%E8%B7%B3%E6%9D%BF%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/'>
+<link rel='canonical' href='http://localhost:1313/p/%E9%9A%8F%E8%BA%ABwifi%E4%BD%9C%E4%B8%BA%E8%B7%B3%E6%9D%BF%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/'>
 
 <link rel="stylesheet" href="/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="随身WiFi作为跳板访问内网服务">
 <meta property='og:description' content="随身Wi-Fi作为跳板访问内网服务 前情提要： 本人在家中搭建了服务器，但是由于误操作，导致无法访问服务器，于是在一通查阅后，发现了我的服务器是支持vpro的 但众所周知的原因，ipv4公网在我这个小地方几乎是没有的 Ipv6又是动态，vpro无法配置ddns，于是有了这个教程 在随身Wi-Fi上部署tailscale通过路由访问内网主机的vpro 正式开始： 本教程使用了GitHub上的openstick项目 OpenStick\nStep1：获取随身Wi-Fi的相关信息 查看随身Wi-Fi的版本 拆开外壳，在主板或天线上应该会有标识 我这里是UFI_001C Step2：准备必要的文件 一款ssh客户端 我这里用的是termius（界面真的好看） openstick项目的固件 打开openstick项目的releases页面，找到最新的release Tip：如果你的设备版本为ufi001c或ufi001b，则下载base.zip\n如果是其它设备，则下载base-generic.zip 我这里是ufi001c，所以我使用base.zip 然后我们需要下载Debian固件，下载debian.zip即可\n下载好后得到这两个文件 解压到没有中文名称的路径\n在刷机之前，请确保你已经备份了你的原厂固件！！！ 在刷机之前，请确保你已经备份了你的原厂固件！！！ 在刷机之前，请确保你已经备份了你的原厂固件！！！\nStep3：刷入Debian 进入fastboot\n在我的随身Wi-Fi上有一个重置按键，我们可以通过它来进入fastboot\n在通电的一瞬间按下它，显示一蓝一绿，即表示进入了fastboot 如果没有亮灯，则是9008模式，请拔出，再尝试重新进入 处理所得的文件\n打开base文件夹，shift+右键空白区域 选择在此处打开PowerShell窗口 随后，将flash.bat拖入命令行，回车执行\n随后一路回车即可，如果脚本自动退出且没有任何报错，则表示base刷写成功 现在我们再来刷入Debian 打开Debian文件夹，将里面的flash.bat，改名为debian.bat\n然后将所有文件移动到base文件夹 提示有重名的文件，忽略即可 你的base文件夹下应该是这种结构\n然后将debian.bat拖入PowerShell中 回车执行 显示all done！即表示完成 Step4：配置Debian系统 刷写完成后，拔出在重新插入随身Wi-Fi 此时会看到有这个提示(Windows8以及以上系统)\n选择是（否则会有莫名其妙的问题）\n然后我们打开一款ssh软件，我这里以termius为例子 输入连接信息：\nIP:192.168.68.1\n用户名:user\n密码:1\n然后连接\n现在我们开始配置网络 输入ntmui，打开networkmanager的tui配置界面 选择“Edit a connection” 先删除不必要的Wired connection 1 按下键选择“Wired connection 1”，后按右键，选定delete，执行 Tip:这里不要删错，保留USB，以防将来维护使用 然后Back，回到主界面 选择“Activate a connection”连接无线网络 选择你的无线网络，输入密码后连接 此时，你的随身Wi-Fi应该可以正常访问网络了，现在，你可以把它丢到离你路由器近的地方进行配置 它的IP地址可以在路由器后台看到（我这里是10.10.10.119\n把连接信息中的IP改为你路由器分配的IP即可\n">
-<meta property='og:url' content='https://blog.coldday.net/p/%E9%9A%8F%E8%BA%ABwifi%E4%BD%9C%E4%B8%BA%E8%B7%B3%E6%9D%BF%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/'>
+<meta property='og:url' content='http://localhost:1313/p/%E9%9A%8F%E8%BA%ABwifi%E4%BD%9C%E4%B8%BA%E8%B7%B3%E6%9D%BF%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/'>
 <meta property='og:site_name' content='ColdDay.NET'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-05-02T23:43:30&#43;08:00'/><meta property='article:modified_time' content='2025-05-02T23:43:30&#43;08:00'/>
 <meta name="twitter:title" content="随身WiFi作为跳板访问内网服务">
@@ -678,7 +678,7 @@ Vim用于编辑文件，ca-certificates用于添根加证书，使用https源增
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+            </script><script type="text/javascript" src="/ts/main.251a6f8dadaebdb596abe484ae06b57644258a4ee8e751e0eabe9733442996f0.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');
