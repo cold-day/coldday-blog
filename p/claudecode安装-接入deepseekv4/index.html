@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
-    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+    <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="安装ClaudeCode并将其接入DeepSeek 准备工作 下载，安装Git，ClaudeCode，CCSwitch Git下载链接（Windows用户需要git以使用bash命令） https://git-scm.com/install/\nCCSwitch下载链接 https://github.com/farion1231/cc-switch/releases\nGit与CCSwitch的安装直接全部无脑下一步即可\nClaude由于限制，无法直接从国内网路环境安装，所以我们需要用到系统自带的包管理器安装，不使用Claude的安装脚本 （当然，如果有能力的话还是推荐Claude自带的安装脚本，便于其自动更新）\nLinux可使用自带的包管理器安装，不同系统用法不同，在此不作赘述\nmacOS可使用Homebrew安装具体命令如下（需要安装Homebrew https://brew.sh/zh-cn/）\nbrew install --cask claude-code\nWindows可以使用winget来安装，部分Windows版本可能没有自带，可以在powershell输入以下命令来安装\nAdd-AppxPackage -RegisterByFamilyName -MainPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\n之后便可输入winget install Anthropic.ClaudeCode来安装ClaudeCode\n以及winget upgrade Anthropic.ClaudeCode来更新\n配置ClaudeCode的环境变量 安装完ClaudeCode后会看到以下界面，Windows端会提示我们配置环境变量，方便使用ClaudeCode，以下macOS与Linux用户无需配置，跳转到下一节即可\n复制图中标记出的地址，Windows徽标键+S 打开搜索，输入\n编辑系统环境变量\n选择环境变量，找到系统变量下的Path，双击打开\n新建变量，将上文得到的路径填写进去\n之后重启电脑，再次打开powershell，输入claude检查是否可用，如果正常，可看到如图所示输出\n此时国内用户可能会报错，不过不用管它，至此，我们完成了必备应用的安装\n配置CCSwitch，接入DeepSeek 获取APIKey 首先我们要去DeepSeek的开放平台获取APIkey（如果你有了APIKey或者其它中转站的APIKey可以忽略这一步\n访问https://platform.deepseek.com/\n获取APIKey并保存在安全的位置\n配置CCSwitch 打开CCSwitch，点击右上角加号新建模型供应商，选择DeepSeek\n填写APIKey，保存后返回主页启用\n之后选择打开终端，会进入ClaudeCode的配置界面，默认回车即可\n信任工作区域后，即配置完成。\n输入/model即可切换DeepSeek的其它模型\n">
 <title>ClaudeCode安装&#43;接入DeepSeekV4</title>
 
-<link rel='canonical' href='http://localhost:1313/p/claudecode%E5%AE%89%E8%A3%85-%E6%8E%A5%E5%85%A5deepseekv4/'>
+<link rel='canonical' href='https://blog.coldday.net/p/claudecode%E5%AE%89%E8%A3%85-%E6%8E%A5%E5%85%A5deepseekv4/'>
 
 <link rel="stylesheet" href="/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="ClaudeCode安装+接入DeepSeekV4">
 <meta property='og:description' content="安装ClaudeCode并将其接入DeepSeek 准备工作 下载，安装Git，ClaudeCode，CCSwitch Git下载链接（Windows用户需要git以使用bash命令） https://git-scm.com/install/\nCCSwitch下载链接 https://github.com/farion1231/cc-switch/releases\nGit与CCSwitch的安装直接全部无脑下一步即可\nClaude由于限制，无法直接从国内网路环境安装，所以我们需要用到系统自带的包管理器安装，不使用Claude的安装脚本 （当然，如果有能力的话还是推荐Claude自带的安装脚本，便于其自动更新）\nLinux可使用自带的包管理器安装，不同系统用法不同，在此不作赘述\nmacOS可使用Homebrew安装具体命令如下（需要安装Homebrew https://brew.sh/zh-cn/）\nbrew install --cask claude-code\nWindows可以使用winget来安装，部分Windows版本可能没有自带，可以在powershell输入以下命令来安装\nAdd-AppxPackage -RegisterByFamilyName -MainPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\n之后便可输入winget install Anthropic.ClaudeCode来安装ClaudeCode\n以及winget upgrade Anthropic.ClaudeCode来更新\n配置ClaudeCode的环境变量 安装完ClaudeCode后会看到以下界面，Windows端会提示我们配置环境变量，方便使用ClaudeCode，以下macOS与Linux用户无需配置，跳转到下一节即可\n复制图中标记出的地址，Windows徽标键+S 打开搜索，输入\n编辑系统环境变量\n选择环境变量，找到系统变量下的Path，双击打开\n新建变量，将上文得到的路径填写进去\n之后重启电脑，再次打开powershell，输入claude检查是否可用，如果正常，可看到如图所示输出\n此时国内用户可能会报错，不过不用管它，至此，我们完成了必备应用的安装\n配置CCSwitch，接入DeepSeek 获取APIKey 首先我们要去DeepSeek的开放平台获取APIkey（如果你有了APIKey或者其它中转站的APIKey可以忽略这一步\n访问https://platform.deepseek.com/\n获取APIKey并保存在安全的位置\n配置CCSwitch 打开CCSwitch，点击右上角加号新建模型供应商，选择DeepSeek\n填写APIKey，保存后返回主页启用\n之后选择打开终端，会进入ClaudeCode的配置界面，默认回车即可\n信任工作区域后，即配置完成。\n输入/model即可切换DeepSeek的其它模型\n">
-<meta property='og:url' content='http://localhost:1313/p/claudecode%E5%AE%89%E8%A3%85-%E6%8E%A5%E5%85%A5deepseekv4/'>
+<meta property='og:url' content='https://blog.coldday.net/p/claudecode%E5%AE%89%E8%A3%85-%E6%8E%A5%E5%85%A5deepseekv4/'>
 <meta property='og:site_name' content='ColdDay.NET'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-06-15T18:59:32&#43;08:00'/><meta property='article:modified_time' content='2026-06-15T18:59:32&#43;08:00'/>
 <meta name="twitter:title" content="ClaudeCode安装+接入DeepSeekV4">
@@ -602,7 +602,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/ts/main.251a6f8dadaebdb596abe484ae06b57644258a4ee8e751e0eabe9733442996f0.js" defer></script>
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');

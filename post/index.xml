@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Posts on ColdDay.NET</title>
-        <link>http://localhost:1313/post/</link>
+        <link>https://blog.coldday.net/post/</link>
         <description>Recent content in Posts on ColdDay.NET</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>ColdDay_&amp;LengTianStudio</copyright>
-        <lastBuildDate>Fri, 24 Jul 2026 00:00:07 +0800</lastBuildDate><atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 24 Jul 2026 00:00:07 +0800</lastBuildDate><atom:link href="https://blog.coldday.net/post/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>为ESXi8.0添加瑞昱（Realtek）有线网卡驱动</title>
-        <link>http://localhost:1313/p/%E4%B8%BAesxi8.0%E6%B7%BB%E5%8A%A0%E7%91%9E%E6%98%B1realtek%E6%9C%89%E7%BA%BF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8/</link>
+        <link>https://blog.coldday.net/p/%E4%B8%BAesxi8.0%E6%B7%BB%E5%8A%A0%E7%91%9E%E6%98%B1realtek%E6%9C%89%E7%BA%BF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8/</link>
         <pubDate>Fri, 24 Jul 2026 00:00:07 +0800</pubDate>
         
-        <guid>http://localhost:1313/p/%E4%B8%BAesxi8.0%E6%B7%BB%E5%8A%A0%E7%91%9E%E6%98%B1realtek%E6%9C%89%E7%BA%BF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8/</guid>
+        <guid>https://blog.coldday.net/p/%E4%B8%BAesxi8.0%E6%B7%BB%E5%8A%A0%E7%91%9E%E6%98%B1realtek%E6%9C%89%E7%BA%BF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8/</guid>
         <description>&lt;h1 id=&#34;为esxi添加realtek网卡驱动&#34;&gt;为ESXi添加Realtek网卡驱动
 &lt;/h1&gt;&lt;p&gt;瑞昱的网卡大多使用在消费级的产品上，并且瑞昱官方没有给出适用于ESXi的网卡驱动，因此在安装ESXi时会报错找不到网卡(No Network Adapters)，最好的办法当然是更换一块受ESXi支持的Intel网卡，但是考虑到大多数个人使用ESXi并不是真正的商业用途，因此使用第三方的驱动也可以解决上述问题&lt;br&gt;
 本文所使用的方法及驱动来自&lt;a class=&#34;link&#34; href=&#34;https://williamlam.com/2026/02/installing-realtek-network-driver-fling-using-free-esxi-8-0-update-3e-iso.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -43,7 +43,7 @@
 &lt;p&gt;注意核对文件名，防止驱动未来更新导致的错误&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;之后会得到三个文件，如图，我们需要的是这个叫&lt;code&gt;ifre&lt;/code&gt;的文件&lt;br&gt;
-&lt;img src=&#34;http://localhost:1313/images/esxi-realtekdriver-guide/ar-get-driver.webp&#34;
+&lt;img src=&#34;https://blog.coldday.net/images/esxi-realtekdriver-guide/ar-get-driver.webp&#34;
 	
 	
 	
@@ -57,7 +57,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 将它重命名为ifre.v00&lt;/p&gt;
 &lt;h2 id=&#34;更改镜像&#34;&gt;更改镜像
 &lt;/h2&gt;&lt;p&gt;首先装载镜像，在镜像的&lt;code&gt;EFI/BOOT&lt;/code&gt;目录下有BOOT.cfg，将其复制到任意文件夹中 ，之后推出镜像&lt;br&gt;
-&lt;img src=&#34;http://localhost:1313/images/esxi-realtekdriver-guide/get-boot.webp&#34;
+&lt;img src=&#34;https://blog.coldday.net/images/esxi-realtekdriver-guide/get-boot.webp&#34;
 	
 	
 	
@@ -68,7 +68,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 	
 &gt;&lt;br&gt;
 首先使用任意文本编辑器打开BOOT.cfg，在&lt;code&gt;modules=&lt;/code&gt;这一行的末尾以相同方式加上&lt;code&gt;ifre.v00&lt;/code&gt;&lt;br&gt;
-&lt;img src=&#34;http://localhost:1313/images/esxi-realtekdriver-guide/edit-boot.webp&#34;
+&lt;img src=&#34;https://blog.coldday.net/images/esxi-realtekdriver-guide/edit-boot.webp&#34;
 	
 	
 	
@@ -104,7 +104,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;接下来使用AnyBurn编辑镜像&lt;br&gt;
-&lt;img src=&#34;http://localhost:1313/images/esxi-realtekdriver-guide/edit-img.webp&#34;
+&lt;img src=&#34;https://blog.coldday.net/images/esxi-realtekdriver-guide/edit-img.webp&#34;
 	
 	
 	
@@ -115,7 +115,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 	
 &gt;&lt;br&gt;
 将名为&lt;code&gt;ifre.v00&lt;/code&gt;的驱动文件添加到镜像的根目录&lt;br&gt;
-&lt;img src=&#34;http://localhost:1313/images/esxi-realtekdriver-guide/edit-img-1.webp&#34;
+&lt;img src=&#34;https://blog.coldday.net/images/esxi-realtekdriver-guide/edit-img-1.webp&#34;
 	
 	
 	
@@ -126,7 +126,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 	
 &gt;&lt;br&gt;
 之后打开&lt;code&gt;EFI/BOOT&lt;/code&gt;，删除&lt;code&gt;BOOT.cfg&lt;/code&gt;再将修改好的&lt;code&gt;BOOT.cfg&lt;/code&gt;添加进去&lt;br&gt;
-&lt;img src=&#34;http://localhost:1313/images/esxi-realtekdriver-guide/edit-img-2.webp&#34;
+&lt;img src=&#34;https://blog.coldday.net/images/esxi-realtekdriver-guide/edit-img-2.webp&#34;
 	
 	
 	
@@ -136,7 +136,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 	
 	
 &gt;&lt;br&gt;
-&lt;img src=&#34;http://localhost:1313/images/esxi-realtekdriver-guide/edit-img-3.webp&#34;
+&lt;img src=&#34;https://blog.coldday.net/images/esxi-realtekdriver-guide/edit-img-3.webp&#34;
 	
 	
 	
@@ -147,7 +147,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 	
 &gt;&lt;br&gt;
 选择下一页，更改镜像保存名称以及位置&lt;br&gt;
-&lt;img src=&#34;http://localhost:1313/images/esxi-realtekdriver-guide/edit-img-final.webp&#34;
+&lt;img src=&#34;https://blog.coldday.net/images/esxi-realtekdriver-guide/edit-img-final.webp&#34;
 	
 	
 	
@@ -169,7 +169,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 此处有两种更改方式，如果你的系统版本为ESXi8.0，那么推荐使用第一种方式，这种是受官方支持的标准方式，如果低于该版本或者存储空间不足，也可以使用第二种方式最大程度的压缩空间&lt;br&gt;
 &lt;strong&gt;第一种&lt;/strong&gt;&lt;br&gt;
 直接在后面加上&lt;code&gt;systemMediaSize=min&lt;/code&gt;&lt;br&gt;
-&lt;img src=&#34;http://localhost:1313/images/esxi-realtekdriver-guide/edit-boot-arg.webp&#34;
+&lt;img src=&#34;https://blog.coldday.net/images/esxi-realtekdriver-guide/edit-boot-arg.webp&#34;
 	
 	
 	
@@ -198,7 +198,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;strong&gt;第二种&lt;/strong&gt;&lt;br&gt;
 在后面加上&lt;code&gt;autoPartitionOSDataSize=8192&lt;/code&gt;&lt;br&gt;
-&lt;img src=&#34;http://localhost:1313/images/esxi-realtekdriver-guide/edit-boot-arg-2.webp&#34;
+&lt;img src=&#34;https://blog.coldday.net/images/esxi-realtekdriver-guide/edit-boot-arg-2.webp&#34;
 	
 	
 	
@@ -225,7 +225,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cp /tardisks/ifre.v00 /vmfs/volumes/BOOTBANK2/ifre.v00
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/esxi-realtekdriver-guide/load-driver.webp&#34;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/esxi-realtekdriver-guide/load-driver.webp&#34;
 	
 	
 	
@@ -237,7 +237,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 &gt;&lt;br&gt;
 之后修改&lt;code&gt;boot.cfg&lt;/code&gt;，方法与上文相同，这里使用系统自带的&lt;code&gt;vi&lt;/code&gt;进行修改&lt;br&gt;
 输入&lt;code&gt;vi /vmfs/volumes/BOOTBANK1/boot.cfg&lt;/code&gt;在modules=这一行的末尾以相同方式加上ifre.v00&lt;br&gt;
-&lt;img src=&#34;http://localhost:1313/images/esxi-realtekdriver-guide/edit-boot-arg-3.webp&#34;
+&lt;img src=&#34;https://blog.coldday.net/images/esxi-realtekdriver-guide/edit-boot-arg-3.webp&#34;
 	
 	
 	
@@ -249,7 +249,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 &gt;&lt;br&gt;
 需要修改两次，第二次输入&lt;code&gt;vi /vmfs/volumes/BOOTBANK1/boot.cfg&lt;/code&gt;，方法相同&lt;br&gt;
 保存后按&lt;code&gt;Alt+2&lt;/code&gt;回到安装界面，回车重启即可完成安装&lt;br&gt;
-&lt;img src=&#34;http://localhost:1313/images/esxi-realtekdriver-guide/reboot-1.webp&#34;
+&lt;img src=&#34;https://blog.coldday.net/images/esxi-realtekdriver-guide/reboot-1.webp&#34;
 	
 	
 	
@@ -260,18 +260,18 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 	
 &gt;&lt;/p&gt;
 &lt;h2 id=&#34;附件&#34;&gt;附件
-&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://localhost:1313/AttachedFiles/esxi-realtekdriver-guide/ifre.v00&#34; &gt;提取的驱动文件&lt;/a&gt;&lt;br&gt;
-&lt;a class=&#34;link&#34; href=&#34;http://localhost:1313/AttachedFiles/esxi-realtekdriver-guide/BOOT.CFG&#34; &gt;修改后的BOOT.CFG&lt;/a&gt;&lt;br&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.coldday.net/AttachedFiles/esxi-realtekdriver-guide/ifre.v00&#34; &gt;提取的驱动文件&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://blog.coldday.net/AttachedFiles/esxi-realtekdriver-guide/BOOT.CFG&#34; &gt;修改后的BOOT.CFG&lt;/a&gt;&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://www.icloud.com/iclouddrive/007K07yALWapizBL8LCw1bvHA#VMware-VMvisor-Installer-8.0U3e-24677879.x86%5F64%5FRealtek-NetworkDriver&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;修补后可直接使用的镜像&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         <item>
         <title>ClaudeCode安装&#43;接入DeepSeekV4</title>
-        <link>http://localhost:1313/p/claudecode%E5%AE%89%E8%A3%85-%E6%8E%A5%E5%85%A5deepseekv4/</link>
+        <link>https://blog.coldday.net/p/claudecode%E5%AE%89%E8%A3%85-%E6%8E%A5%E5%85%A5deepseekv4/</link>
         <pubDate>Mon, 15 Jun 2026 18:59:32 +0800</pubDate>
         
-        <guid>http://localhost:1313/p/claudecode%E5%AE%89%E8%A3%85-%E6%8E%A5%E5%85%A5deepseekv4/</guid>
+        <guid>https://blog.coldday.net/p/claudecode%E5%AE%89%E8%A3%85-%E6%8E%A5%E5%85%A5deepseekv4/</guid>
         <description>&lt;h1 id=&#34;安装claudecode并将其接入deepseek&#34;&gt;安装ClaudeCode并将其接入DeepSeek
 &lt;/h1&gt;&lt;/br&gt;
 &lt;h2 id=&#34;准备工作&#34;&gt;准备工作
@@ -280,7 +280,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
     &gt;https://git-scm.com/install/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;CCSwitch下载链接 &lt;a class=&#34;link&#34; href=&#34;https://github.com/farion1231/cc-switch/releases&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/farion1231/cc-switch/releases&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/ccxds/icon.webp&#34;
+&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/ccxds/icon.webp&#34;
 	
 	
 	
@@ -303,7 +303,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 &lt;p&gt;以及&lt;code&gt;winget upgrade Anthropic.ClaudeCode&lt;/code&gt;来更新&lt;/p&gt;
 &lt;h3 id=&#34;配置claudecode的环境变量&#34;&gt;配置ClaudeCode的环境变量
 &lt;/h3&gt;&lt;p&gt;安装完ClaudeCode后会看到以下界面，Windows端会提示我们配置环境变量，方便使用ClaudeCode，以下macOS与Linux用户无需配置，跳转到下一节即可&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/ccxds/cc-tip.webp&#34;
+&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/ccxds/cc-tip.webp&#34;
 	
 	
 	
@@ -316,7 +316,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 &lt;p&gt;复制图中标记出的地址，Windows徽标键+S 打开搜索，输入&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;编辑系统环境变量&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;选择环境变量，找到系统变量下的Path，双击打开&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/ccxds/env_1.webp&#34;
+&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/ccxds/env_1.webp&#34;
 	
 	
 	
@@ -327,7 +327,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;新建变量，将上文得到的路径填写进去&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/ccxds/env_2.webp&#34;
+&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/ccxds/env_2.webp&#34;
 	
 	
 	
@@ -338,7 +338,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;之后重启电脑，再次打开powershell，输入&lt;code&gt;claude&lt;/code&gt;检查是否可用，如果正常，可看到如图所示输出&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/ccxds/cc-error.webp&#34;
+&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/ccxds/cc-error.webp&#34;
 	
 	
 	
@@ -355,7 +355,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 &lt;p&gt;访问&lt;a class=&#34;link&#34; href=&#34;https://platform.deepseek.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://platform.deepseek.com/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;获取APIKey并保存在安全的位置&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/ccxds/get-api.webp&#34;
+&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/ccxds/get-api.webp&#34;
 	
 	
 	
@@ -367,7 +367,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 &gt;&lt;/p&gt;
 &lt;h3 id=&#34;配置ccswitch&#34;&gt;配置CCSwitch
 &lt;/h3&gt;&lt;p&gt;打开CCSwitch，点击右上角加号新建模型供应商，选择DeepSeek&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/ccxds/cf_1.webp&#34;
+&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/ccxds/cf_1.webp&#34;
 	
 	
 	
@@ -377,7 +377,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 	
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/ccxds/cf_2.webp&#34;
+&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/ccxds/cf_2.webp&#34;
 	
 	
 	
@@ -388,7 +388,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;填写APIKey，保存后返回主页启用&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/ccxds/use_1.webp&#34;
+&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/ccxds/use_1.webp&#34;
 	
 	
 	
@@ -398,7 +398,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 	
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/ccxds/use_2.webp&#34;
+&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/ccxds/use_2.webp&#34;
 	
 	
 	
@@ -409,7 +409,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;之后选择打开终端，会进入ClaudeCode的配置界面，默认回车即可&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/ccxds/initialize_1.webp&#34;
+&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/ccxds/initialize_1.webp&#34;
 	
 	
 	
@@ -419,7 +419,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 	
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/ccxds/initialize_2.webp&#34;
+&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/ccxds/initialize_2.webp&#34;
 	
 	
 	
@@ -431,7 +431,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 &gt;&lt;/p&gt;
 &lt;p&gt;信任工作区域后，即配置完成。&lt;/p&gt;
 &lt;p&gt;输入&lt;code&gt;/model&lt;/code&gt;即可切换DeepSeek的其它模型&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/ccxds/initialize_4.webp&#34;
+&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/ccxds/initialize_4.webp&#34;
 	
 	
 	
@@ -442,7 +442,7 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;上下键选择，回车确认，在主页即可看到选择的模型&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/ccxds/initialize_3.webp&#34;
+&lt;p&gt;&lt;img src=&#34;https://blog.coldday.net/images/ccxds/initialize_3.webp&#34;
 	
 	
 	
@@ -456,10 +456,10 @@ Linux可能需要更改它的权限才能将它移动到其它地方&lt;br&gt;
         </item>
         <item>
         <title>随身WiFi作为跳板访问内网服务</title>
-        <link>http://localhost:1313/p/%E9%9A%8F%E8%BA%ABwifi%E4%BD%9C%E4%B8%BA%E8%B7%B3%E6%9D%BF%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</link>
+        <link>https://blog.coldday.net/p/%E9%9A%8F%E8%BA%ABwifi%E4%BD%9C%E4%B8%BA%E8%B7%B3%E6%9D%BF%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</link>
         <pubDate>Fri, 02 May 2025 23:43:30 +0800</pubDate>
         
-        <guid>http://localhost:1313/p/%E9%9A%8F%E8%BA%ABwifi%E4%BD%9C%E4%B8%BA%E8%B7%B3%E6%9D%BF%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</guid>
+        <guid>https://blog.coldday.net/p/%E9%9A%8F%E8%BA%ABwifi%E4%BD%9C%E4%B8%BA%E8%B7%B3%E6%9D%BF%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</guid>
         <description>&lt;h1 id=&#34;随身wi-fi作为跳板访问内网服务&#34;&gt;随身Wi-Fi作为跳板访问内网服务
 &lt;/h1&gt;&lt;h2 id=&#34;前情提要&#34;&gt;前情提要：
 &lt;/h2&gt;&lt;h2 id=&#34;在随身wi-fi上部署tailscale通过路由访问内网主机的vpro&#34;&gt;本人在家中搭建了服务器，但是由于误操作，导致无法访问服务器，于是在一通查阅后，发现了我的服务器是支持vpro的
